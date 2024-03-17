@@ -16,6 +16,7 @@ import os
 
 from product_classification.working import receipt_score
 
+import webbrowser
 
 
 app = Flask(__name__)
@@ -145,15 +146,17 @@ def upload_image():
         filename = 'uploaded_image.jpeg'
         parser = VerifyParser(filename)
         items = parser.get_line_items()
-        for i in items:
-            if i[1] <= 0:
-                items.pop[i]
         #items = [('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]
         #print (items)
 
         
-        score = receipt_score(items)
         
+        score = receipt_score(items)
+        #print(score)
+        
+        donor_url = "https://receive-donor.vercel.app/?user=0x6e1Ab9A6556a328baD854c88d1b85651A6C3DC27&num=" + str(score//10)
+
+        webbrowser.open(donor_url)
 
         for i in items:
             if i[1] <= 0:
