@@ -5,10 +5,21 @@ import json
 from product_search.models.Product import Product
 from serpapi import GoogleSearch
 
+import requests
+from bs4 import BeautifulSoup
+
+#find receipts
+from veryfi import Client
+from abc import ABC
+import json
+import os
+
+
+
 app = Flask(__name__)
 #CORS(app)
 
-@app.route('/upload', methods=['POST'])
+
 
 def search_product(input_product : Product):
     link,imlink = get_product_link(input_product)
@@ -18,8 +29,6 @@ def search_product(input_product : Product):
     print(imlink)
     input_product.populate_product_using_link(link)
     return input_product
-
-
 
 def get_product_link(array):
     name_on_receipt = array[0]
@@ -55,14 +64,6 @@ def get_product_link(array):
 
 def __get_link_from_results(results):
     return results["organic_results"][0]["link"]
-
-
-#find receipts
-from veryfi import Client
-from abc import ABC
-import json
-import os
-
 
 class VerifyParser():
     def __init__(self, filename: str) -> None:
@@ -106,38 +107,6 @@ class VerifyParser():
 
         return self.items
 
-
-def upload_image():
-    if 'image' in request.files:
-        image_file = request.files['image']
-        image_file.save('uploaded_image.png')
-        filename = 'uploaded_image.png'
-        #parser = VerifyParser(filename)
-        #items = parser.get_line_items()
-        items = [('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]
-        print (items)
-
-        for i in items:
-            if i[1] <= 0:
-                break
-            #else:
-                #pass
-            #get_product_link(i)
-        response_data = {'status': 'success', 'message': 'Image uploaded successfully!'}
-    else:
-        response_data = {'status': 'error', 'message': 'No image found in the request.'}
-
-    return jsonify(response_data)
-
-if __name__ == '__main__':
-    #app.run(ssl_context=('cert.pem', 'key.pem'), host='0.0.0.0', port=5000, debug=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
-
-
-import requests
-from bs4 import BeautifulSoup
-
 def is_vegan(url):
     try:
         response = requests.get(url)
@@ -164,3 +133,33 @@ def is_vegan(url):
     except Exception as e:
         print("An error occurred:", e)
         return None
+
+@app.route('/upload', methods=['POST'])
+
+def upload_image():
+    if 'image' in request.files:
+        image_file = request.files['image']
+        image_file.save('uploaded_image.jpeg')
+        filename = 'uploaded_image.jpeg'
+        parser = VerifyParser(filename)
+        items = parser.get_line_items()
+        #items = [('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]
+        print (items)
+
+        for i in items:
+            if i[1] <= 0:
+                break
+            #else:
+                #pass
+            get_product_link(i)
+        response_data = {'status': 'success', 'message': 'Image uploaded successfully!'}
+    else:
+        response_data = {'status': 'error', 'message': 'No image found in the request.'}
+
+    return jsonify(response_data)
+
+if __name__ == '__main__':
+    #app.run(ssl_context=('cert.pem', 'key.pem'), host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
