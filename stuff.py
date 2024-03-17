@@ -14,7 +14,7 @@ from abc import ABC
 import json
 import os
 
-
+import product_classification.working
 
 app = Flask(__name__)
 #CORS(app)
@@ -145,6 +145,12 @@ def upload_image():
         items = parser.get_line_items()
         #items = [('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]
         print (items)
+        
+        # TODO: Do something
+        
+        receipt_items = ["apple", "orange", "beef"]
+        print(receipt_score(receipt_items))
+        
 
         for i in items:
             if i[1] <= 0:
