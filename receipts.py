@@ -6,29 +6,29 @@ import os
 
 class VerifyParser():
     def __init__(self, filename: str) -> None:
-        self.client_id = 'vrfB0juUkBA4LwC5vwGrBUhwboiuwIMPRU68LTB'
-        self.client_secret = '3Dnhw0PwbAkX3gtJa3iAJHuxKGsYUU1cgAE4y6e5cjyaUsvhyjUJuJOWoaccKTPH8jxyiVSTh7JkrPefMlz3Ac70u0oY3POTRyozlCbaNSAydG6ZN1UU2G7wHtwNkWzc'
-        self.username = 'marlycef4'
-        self.api_key = '98e6a79ff2bd95c85d82b5d2c2229ef6'
+        self.client_id = 'vrfZHS0FN8frHYeHt3ozsUk7uhJZZ54L3Y4rtnL'
+        self.client_secret = 'u6WD5AuzmfgsW5ORPRGOs9vP2vK7VGeH022KhZ2iVVaHkrpHFzYyJeddo0w9WLVejOvaBRw3Epm4kltKV64kui84ROwV7vT8t4Uyy7TaHYJnDCC8ErUOALmge0InsCeC'
+        self.username = 'ar2237'
+        self.api_key = '23470b1b176963fb59717d032d5f8c92'
         self.categories = ['Grocery', 'Utilities', 'Travel']
         self.file_path = filename
         self.items = None
         self.response = None
 
     def get_response(self) -> None:
-        if os.path.isfile("response.json"):
-            response = json.loads("response.json")
-        else:
-            veryfi_client = Client(self.client_id,
-                                   self.client_secret,
-                                   self.username,
-                                   self.api_key)
+        #if os.path.isfile("response.json"):
+         #   response = json.loads("response.json")
+        #else:
+        veryfi_client = Client(self.client_id,
+                                self.client_secret,
+                                self.username,
+                                self.api_key)
 
-            response = veryfi_client.process_document(self.file_path,
+        response = veryfi_client.process_document(self.file_path,
                                                       categories=self.categories)
-            self.response = response
-            with open("response.json", "w") as f:
-                json.dump(self.response, f)
+        self.response = response
+        with open("response.json", "w") as f:
+            json.dump(self.response, f)
 
     def get_date(self) -> str:
         if self.items == None:
@@ -47,9 +47,9 @@ class VerifyParser():
         return self.items
 
 
-filename = 'receipts_test.jpg'
+filename = 'DSC_0058.JPG'
 parser = VerifyParser(filename)
 items = parser.get_line_items()
 print(items)
 
-# print(parser.response)
+#print(parser.response)
