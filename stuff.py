@@ -16,7 +16,7 @@ import os
 
 from product_classification.working import receipt_score
 
-print(receipt_score([('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]))
+
 
 app = Flask(__name__)
 #CORS(app)
@@ -26,9 +26,9 @@ app = Flask(__name__)
 def search_product(input_product : Product):
     link,imlink = get_product_link(input_product)
 
-    print('here')
-    print(link)
-    print(imlink)
+    #print('here')
+    #print(link)
+    #print(imlink)
     input_product.populate_product_using_link(link)
     return input_product
 
@@ -61,7 +61,7 @@ def get_product_link(array):
         image_link = results["inline_images"][0]["original"]
     except:
         image_link = ""
-    print(link,image_link)
+    #print(link,image_link)
     return link, image_link
 
 def __get_link_from_results(results):
@@ -130,10 +130,10 @@ def is_vegan(url):
                     return True
             return False
         else:
-            print("Failed to fetch URL:", url)
+            #print("Failed to fetch URL:", url)
             return None
     except Exception as e:
-        print("An error occurred:", e)
+        #print("An error occurred:", e)
         return None
 
 @app.route('/upload', methods=['POST'])
@@ -145,10 +145,14 @@ def upload_image():
         filename = 'uploaded_image.jpeg'
         parser = VerifyParser(filename)
         items = parser.get_line_items()
+        for i in items:
+            if i[1] <= 0:
+                items.pop[i]
         #items = [('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]
-        print (items)
+        #print (items)
+
         
-        print(receipt_score(items))
+        score = receipt_score(items)
         
 
         for i in items:
