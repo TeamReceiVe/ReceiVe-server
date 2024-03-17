@@ -22,7 +22,7 @@ def get_product_link(input_product : Product):
     search_query : str = f"{name_on_receipt} £{price_in_pounds} Sainsbury's"
     # e.g. "cocoa powder £3.15 site:https://www.sainsburys.co.uk/"
 
-    private_api_key = "dda4738939d0f2e81f9a8c9f3d62d63cd429b0edee27241b4222c53380d82931"
+    private_api_key = "49e5a4ce4fe4d94be42dbd3ed06605cc55e20c85002bcadebe422993536c8fd9"
 
 
 
