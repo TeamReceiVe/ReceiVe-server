@@ -7,7 +7,6 @@ app = Flask(__name__)
 @app.route('/upload', methods=['POST'])
 
 def upload_image():
-    print("upload")
     if 'image' in request.files:
         image_file = request.files['image']
         # Save the image to a desired location

@@ -112,9 +112,9 @@ def upload_image():
         image_file = request.files['image']
         image_file.save('uploaded_image.png')
         filename = 'uploaded_image.png'
-        parser = VerifyParser(filename)
-        items = parser.get_line_items()
-        #items = [('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]
+        #parser = VerifyParser(filename)
+        #items = parser.get_line_items()
+        items = [('MONSTER PIPELINE', 1.85), ('BRIE, BACON & CHILLI', 3.0), ('PIZZA SWIRL', 1.1)]
         print (items)
 
         for i in items:
@@ -122,9 +122,12 @@ def upload_image():
                 break
             #else:
                 #pass
-            get_product_link(i)
-        return True
-    return False
+            #get_product_link(i)
+        response_data = {'status': 'success', 'message': 'Image uploaded successfully!'}
+    else:
+        response_data = {'status': 'error', 'message': 'No image found in the request.'}
+
+    return jsonify(response_data)
 
 if __name__ == '__main__':
     #app.run(ssl_context=('cert.pem', 'key.pem'), host='0.0.0.0', port=5000, debug=True)
